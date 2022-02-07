@@ -3,8 +3,8 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
+    username: ${MYSQL_USERNAME}
     url: jdbc:mysql://${MYSQL_HOST}:3306/${DATABASE_NAME}?characterEncoding=UTF8&userSSL=false
-    password: zq969811
+    password: ${MYSQL_PASSWORD}
   application:
     name: music
