@@ -1,0 +1,10 @@
+server:
+  port: 80
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    url: jdbc:mysql://${MYSQL_HOST}:3306/${DATABASE_NAME}?characterEncoding=UTF8&userSSL=false
+    password: zq969811
+  application:
+    name: music
