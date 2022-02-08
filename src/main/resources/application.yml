@@ -1,5 +1,5 @@
 server:
-  port: 80
+  port: ${APPLICATION_PORT}
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -8,3 +8,11 @@ spring:
     password: ${MYSQL_PASSWORD}
   application:
     name: music
+  jpa:
+    generate-ddl: false
+  flyway:
+    enabled: true
+  config:
+    import: optional:file:.env[.properties]
+  profiles:
+    active: dev

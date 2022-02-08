@@ -19,3 +19,5 @@ spring:
     show-sql: true
     properties:
       format_sql: true
+  flyway:
+    enabled: false
