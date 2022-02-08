@@ -1,0 +1,1 @@
+Alter TABLE `user` add column `phone` varchar(50) null comment '手机号码' after `username`;
