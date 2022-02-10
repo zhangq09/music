@@ -13,7 +13,7 @@ COPY settings.xml pom.xml /app/
 
 # 执行代码编译命令
 # 自定义settings.xml, 选用国内镜像源以提高下载速度
-RUN mvn -s /app/settings.xml -f /app/pom.xml clean package -D spring.profiles.active=prod
+RUN mvn -s /app/settings.xml -f /app/pom.xml clean package -D spring.profiles.active=test
 
 # 选择运行时基础镜像
 FROM alpine:3.13
@@ -39,4 +39,4 @@ COPY --from=build /app/target/music-0.0.1.jar .
 EXPOSE 80
 
 # 执行启动命令
-CMD ["java", "-jar", "/app/music-0.0.1.jar"]
+CMD ["java", "-jar", "/app/music-0.0.1.jar","spring.profiles.active=test"]
