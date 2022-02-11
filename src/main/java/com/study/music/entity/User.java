@@ -43,7 +43,7 @@ public class User extends AbstractEntity implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     //被锁定

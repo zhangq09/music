@@ -34,13 +34,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         try {
             User user = new ObjectMapper()
                     .readValue(request.getInputStream(), User.class);
-            return authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            user.getUsername(),
-                            user.getPassword(),
-                            new ArrayList<>()
-                    )
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                    user.getUsername(),
+                    user.getPassword(),
+                    new ArrayList<>()
             );
+            return authenticationManager.authenticate(authenticationToken);
         } catch (Exception e) {
             throw new BizException(ExceptionType.FORBIDDEN);
         }
@@ -52,7 +51,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConfig.EXPIRATION_TIME))
                 .sign(Algorithm.HMAC512(SecurityConfig.SECRET.getBytes()));
         response.addHeader(SecurityConfig.HEADER_STRING, SecurityConfig.TOKEN_PREFIX + token);
-        super.successfulAuthentication(request, response, chain, authResult);
     }
 
 

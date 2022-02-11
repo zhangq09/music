@@ -1,16 +1,12 @@
 package com.study.music.config;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-@Configuration
 public class CrossConfig {
 
-    @Bean
-    public CorsFilter corsFilter(){
+    public CorsFilter corsFilter() {
         CorsConfiguration configuration = new CorsConfiguration();
 
         //允许所有域名进行跨域调用
@@ -25,7 +21,7 @@ public class CrossConfig {
         configuration.addExposedHeader("*");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**",configuration);
+        source.registerCorsConfiguration("/**", configuration);
         return new org.springframework.web.filter.CorsFilter(source);
     }
 }
