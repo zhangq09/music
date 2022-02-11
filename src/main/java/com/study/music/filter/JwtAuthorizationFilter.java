@@ -25,25 +25,23 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 
         String header = request.getHeader(SecurityConfig.HEADER_STRING);
-
-        if(header == null || !header.startsWith(SecurityConfig.TOKEN_PREFIX)){
-            chain.doFilter(request,response);
+        if (header == null || !header.startsWith(SecurityConfig.TOKEN_PREFIX)) {
+            chain.doFilter(request, response);
             return;
         }
         UsernamePasswordAuthenticationToken authenticationToken = getAuthentication(header);
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-
-        chain.doFilter(request,response);
+        chain.doFilter(request, response);
     }
 
-    private UsernamePasswordAuthenticationToken getAuthentication(String header){
-        if(header!=null){
+    private UsernamePasswordAuthenticationToken getAuthentication(String header) {
+        if (header != null) {
             String username = JWT.require(Algorithm.HMAC512(SecurityConfig.SECRET.getBytes()))
                     .build()
-                    .verify(header.replace(SecurityConfig.TOKEN_PREFIX,""))
+                    .verify(header.replace(SecurityConfig.TOKEN_PREFIX, ""))
                     .getSubject();
-            if(username != null){
-                return new UsernamePasswordAuthenticationToken(username,null,new ArrayList<>());
+            if (username != null) {
+                return new UsernamePasswordAuthenticationToken(username, null, new ArrayList<>());
             }
         }
         return null;

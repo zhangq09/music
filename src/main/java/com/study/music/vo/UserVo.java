@@ -1,6 +1,5 @@
 package com.study.music.vo;
 
-import com.study.music.entity.Role;
 import lombok.Data;
 
 import java.util.List;
@@ -14,5 +13,5 @@ public class UserVo {
 
     private String nickname;
 
-    private List<Role> roles;
+    private List<RoleVo> roles;
 }

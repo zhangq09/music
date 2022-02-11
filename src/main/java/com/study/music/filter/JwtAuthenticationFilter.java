@@ -14,8 +14,10 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -31,8 +33,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
             User user = new ObjectMapper()
-                    .readValue(request.getInputStream(),User.class);
-            System.out.println(user.toString());
+                    .readValue(request.getInputStream(), User.class);
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             user.getUsername(),
@@ -40,16 +41,19 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                             new ArrayList<>()
                     )
             );
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new BizException(ExceptionType.FORBIDDEN);
         }
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult){
-        String token = JWT.create().withSubject(((User)(authResult.getPrincipal())).getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis()+ SecurityConfig.EXPIRATION_TIME))
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+        String token = JWT.create().withSubject(((User) (authResult.getPrincipal())).getUsername())
+                .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConfig.EXPIRATION_TIME))
                 .sign(Algorithm.HMAC512(SecurityConfig.SECRET.getBytes()));
-        response.addHeader(SecurityConfig.HEADER_STRING,SecurityConfig.TOKEN_PREFIX+token);
+        response.addHeader(SecurityConfig.HEADER_STRING, SecurityConfig.TOKEN_PREFIX + token);
+        super.successfulAuthentication(request, response, chain, authResult);
     }
+
+
 }
