@@ -43,7 +43,7 @@ public class User extends AbstractEntity implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return this.getEnabled();
     }
 
     //被锁定
@@ -54,7 +54,7 @@ public class User extends AbstractEntity implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return this.getEnabled();
     }
 
     @Override

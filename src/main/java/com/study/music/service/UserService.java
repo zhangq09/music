@@ -1,5 +1,6 @@
 package com.study.music.service;
 
+import com.study.music.dto.TokenCreateRequest;
 import com.study.music.dto.UserCreateDto;
 import com.study.music.dto.UserDto;
 import com.study.music.dto.UserUpdateRequest;
@@ -27,4 +28,8 @@ public interface UserService extends UserDetailsService {
     Page<UserDto> search(Pageable pageable);
 
     void delete(String id);
+
+    String createToken(TokenCreateRequest tokenCreateRequest);
+
+    UserDto getCurrentUser();
 }

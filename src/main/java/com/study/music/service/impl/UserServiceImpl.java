@@ -1,5 +1,9 @@
 package com.study.music.service.impl;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.study.music.config.SecurityConfig;
+import com.study.music.dto.TokenCreateRequest;
 import com.study.music.dto.UserCreateDto;
 import com.study.music.dto.UserDto;
 import com.study.music.dto.UserUpdateRequest;
@@ -12,10 +16,13 @@ import com.study.music.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -90,6 +97,34 @@ public class UserServiceImpl implements UserService {
             throw new BizException(ExceptionType.USER_NOT_FOUND);
         }
         return user.get();
+    }
+
+    public String createToken(TokenCreateRequest tokenCreateRequest) {
+        User user = (User) loadUserByUsername(tokenCreateRequest.getUsername());
+        if (!passwordEncoder.matches(tokenCreateRequest.getPassword(), user.getPassword())) {
+            throw new BizException(ExceptionType.USER_PASSWORD_NOT_MATCH);
+        }
+        if (!user.getEnabled()) {
+            throw new BizException(ExceptionType.USER_NOT_ENABLE);
+        }
+        if (!user.isAccountNonExpired()) {
+            throw new BizException(ExceptionType.USER_LOCKED);
+        }
+        //通过验证
+        return getToken(user);
+    }
+
+    @Override
+    public UserDto getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) loadUserByUsername(authentication.getName());
+        return userMapper.toDto(user);
+    }
+
+    private String getToken(User user) {
+        return JWT.create().withSubject(user.getUsername())
+                .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConfig.EXPIRATION_TIME))
+                .sign(Algorithm.HMAC512(SecurityConfig.SECRET.getBytes()));
     }
 
     @Autowired

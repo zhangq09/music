@@ -1,5 +1,6 @@
 package com.study.music.handler;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.study.music.enums.ExceptionType;
 import com.study.music.exception.BizException;
 import com.study.music.exception.ErrorResponse;
@@ -25,15 +26,23 @@ public class GlobalExceptionHandler {
         return errorResponse;
     }
 
-    //500返回的处理
- /*   @ExceptionHandler(value = Exception.class)
-    public ErrorResponse ExceptionHandler(Exception e) {
+    //Exception返回500的处理
+    @ExceptionHandler(value = Exception.class)
+    public ErrorResponse exceptionHandler(Exception e) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setCode(ExceptionType.INNER_ERROR.getCode());
         errorResponse.setMessage(ExceptionType.INNER_ERROR.getMessage());
         return errorResponse;
     }
-*/
+
+    @ExceptionHandler(value = TokenExpiredException.class)
+    public ErrorResponse tokenExceptionHandler(Exception e) {
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setCode(ExceptionType.TOKEN_IS_EXPIRED.getCode());
+        errorResponse.setMessage(ExceptionType.TOKEN_IS_EXPIRED.getMessage());
+        return errorResponse;
+    }
+
     //无权限请求
     @ExceptionHandler(value = AccessDeniedException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
