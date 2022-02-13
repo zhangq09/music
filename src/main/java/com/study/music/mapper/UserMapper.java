@@ -1,6 +1,5 @@
 package com.study.music.mapper;
 
-import com.study.music.dto.UserCreateDto;
 import com.study.music.dto.UserDto;
 import com.study.music.dto.UserUpdateRequest;
 import com.study.music.entity.User;
@@ -16,8 +15,6 @@ public interface UserMapper {
     UserDto toDto(User user);
 
     UserVo toVo(UserDto userDto);
-
-    User createEntity(UserCreateDto userCreateDto);
 
     User updateEntity(@MappingTarget User user, UserUpdateRequest userUpdateRequest);
 }

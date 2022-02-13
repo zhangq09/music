@@ -1,6 +1,6 @@
 package com.study.music.controller;
 
-import com.study.music.dto.UserCreateDto;
+import com.study.music.dto.UserCreateRequest;
 import com.study.music.dto.UserUpdateRequest;
 import com.study.music.mapper.UserMapper;
 import com.study.music.service.UserService;
@@ -37,8 +37,8 @@ public class UserController {
     @PostMapping()
     @ApiOperation("create:创建用户")
     @RolesAllowed("ROLE_USER_ADMIN")
-    UserVo create(@Validated @RequestBody UserCreateDto userCreateDto) {
-        return userMapper.toVo(userService.create(userCreateDto));
+    UserVo create(@Validated @RequestBody UserCreateRequest userCreateRequest) {
+        return userMapper.toVo(userService.create(userCreateRequest));
     }
 
     @GetMapping("/{id}")

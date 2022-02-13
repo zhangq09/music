@@ -4,13 +4,15 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.study.music.config.SecurityConfig;
 import com.study.music.dto.TokenCreateRequest;
-import com.study.music.dto.UserCreateDto;
+import com.study.music.dto.UserCreateRequest;
 import com.study.music.dto.UserDto;
 import com.study.music.dto.UserUpdateRequest;
 import com.study.music.entity.User;
 import com.study.music.enums.ExceptionType;
+import com.study.music.enums.Gender;
 import com.study.music.exception.BizException;
 import com.study.music.mapper.UserMapper;
+import com.study.music.repository.RoleRepository;
 import com.study.music.repository.UserRepository;
 import com.study.music.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,8 @@ public class UserServiceImpl implements UserService {
 
     UserRepository userRepository;
 
+    RoleRepository roleRepository;
+
     UserMapper userMapper;
 
     PasswordEncoder passwordEncoder;
@@ -43,10 +47,25 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public UserDto create(UserCreateDto userCreateDto) {
-        checkUsername(userCreateDto.getUsername());
-        userCreateDto.setPassword(passwordEncoder.encode(userCreateDto.getPassword()));
-        return userMapper.toDto(userRepository.save(userMapper.createEntity(userCreateDto)));
+    public UserDto create(UserCreateRequest userCreateRequest) {
+        checkUsername(userCreateRequest.getUsername());
+        User user = userRepository.save(userCreateRequestMapper(userCreateRequest));
+        return userMapper.toDto(user);
+    }
+
+    private User userCreateRequestMapper(UserCreateRequest userCreateRequest) {
+        if (userCreateRequest == null) {
+            return null;
+        }
+        User user = new User();
+        user.setUsername(userCreateRequest.getUsername());
+        user.setNickname(userCreateRequest.getNickname());
+        user.setPassword(userCreateRequest.getPassword());
+        if (userCreateRequest.getGender() != null) {
+            user.setGender(Enum.valueOf(Gender.class, userCreateRequest.getGender()));
+        }
+        user.setRoles(userCreateRequest.getRoles().stream().map(roleRepository::findByName).collect(Collectors.toList()));
+        return user;
     }
 
     @Override
@@ -129,6 +148,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    @Autowired
+    public void setRoleRepository(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
     }
 
     @Autowired

@@ -4,10 +4,10 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Data
-public class UserCreateDto {
-
+public class UserCreateRequest {
     @NotBlank(message = "用户名不能为空")
     @Size(min = 4, max = 12, message = "用户名长度应该在4个字符到12个字符之间")
     private String username;
@@ -18,4 +18,6 @@ public class UserCreateDto {
 
     private String nickname;
     private String gender;
+
+    private List<String> roles;
 }

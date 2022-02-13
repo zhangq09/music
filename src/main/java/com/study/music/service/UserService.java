@@ -1,7 +1,7 @@
 package com.study.music.service;
 
 import com.study.music.dto.TokenCreateRequest;
-import com.study.music.dto.UserCreateDto;
+import com.study.music.dto.UserCreateRequest;
 import com.study.music.dto.UserDto;
 import com.study.music.dto.UserUpdateRequest;
 import com.study.music.entity.User;
@@ -16,7 +16,7 @@ public interface UserService extends UserDetailsService {
 
     List<UserDto> list();
 
-    UserDto create(UserCreateDto userCreateDto);
+    UserDto create(UserCreateRequest userCreateRequest);
 
     @Override
     User loadUserByUsername(String username) throws UsernameNotFoundException;
