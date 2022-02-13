@@ -15,6 +15,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
+
 @RestController
 @RequestMapping("/users")
 @CrossOrigin
@@ -27,12 +29,14 @@ public class UserController {
 
     @GetMapping()
     @ApiOperation("search:用户检索查询并分页")
+    @RolesAllowed("ROLE_USER_ADMIN")
     Page<UserVo> search(@PageableDefault(sort = {"createdTime"}, direction = Sort.Direction.DESC) Pageable pageable) {
         return userService.search(pageable).map(userMapper::toVo);
     }
 
     @PostMapping()
     @ApiOperation("create:创建用户")
+    @RolesAllowed("ROLE_USER_ADMIN")
     UserVo create(@Validated @RequestBody UserCreateDto userCreateDto) {
         return userMapper.toVo(userService.create(userCreateDto));
     }
@@ -45,12 +49,14 @@ public class UserController {
 
     @PutMapping("/{id}")
     @ApiOperation("update:通过id和传入的用户信息更新用户")
+    @RolesAllowed("ROLE_USER_ADMIN")
     UserVo update(@PathVariable String id, @Validated @RequestBody UserUpdateRequest userUpdateRequest) {
         return userMapper.toVo(userService.update(id, userUpdateRequest));
     }
 
     @DeleteMapping("/{id}")
     @ApiOperation("delete:通过id删除用户")
+    @RolesAllowed("ROLE_USER_ADMIN")
     void delete(@PathVariable String id) {
         userService.delete(id);
     }

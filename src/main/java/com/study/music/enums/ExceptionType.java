@@ -4,7 +4,7 @@ public enum ExceptionType {
     INNER_ERROR(500, "系统内部错误"),
     UNAUTHORIZED(401, "未登录"),
     BAD_REQUEST(400, "请求错误"),
-    USER_PASSWORD_NOT_MATCH(40001003, "用户名或密码错误"),
+    USER_PASSWORD_NOT_MATCH(40001003, "用户名密码错误"),
     USER_NAME_DUPLICATE(40001001, "用户名已存在"),
     USER_NOT_FOUND(40001002, "用户未找到"),
     USER_NOT_ENABLE(40001003, "用户已失效"),

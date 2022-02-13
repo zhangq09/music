@@ -18,7 +18,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -51,7 +50,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) {
+    public User loadUserByUsername(String username) {
         Optional<User> userByUsername = userRepository.findUserByUsername(username);
         if (!userByUsername.isPresent()) {
             throw new BizException(ExceptionType.USER_NOT_FOUND);
@@ -100,7 +99,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public String createToken(TokenCreateRequest tokenCreateRequest) {
-        User user = (User) loadUserByUsername(tokenCreateRequest.getUsername());
+        User user = loadUserByUsername(tokenCreateRequest.getUsername());
         if (!passwordEncoder.matches(tokenCreateRequest.getPassword(), user.getPassword())) {
             throw new BizException(ExceptionType.USER_PASSWORD_NOT_MATCH);
         }
@@ -117,7 +116,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) loadUserByUsername(authentication.getName());
+        User user = loadUserByUsername(authentication.getName());
         return userMapper.toDto(user);
     }
 

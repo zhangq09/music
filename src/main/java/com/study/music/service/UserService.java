@@ -4,9 +4,9 @@ import com.study.music.dto.TokenCreateRequest;
 import com.study.music.dto.UserCreateDto;
 import com.study.music.dto.UserDto;
 import com.study.music.dto.UserUpdateRequest;
+import com.study.music.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
@@ -19,7 +19,7 @@ public interface UserService extends UserDetailsService {
     UserDto create(UserCreateDto userCreateDto);
 
     @Override
-    UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+    User loadUserByUsername(String username) throws UsernameNotFoundException;
 
     UserDto get(String id);
 
