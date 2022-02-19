@@ -43,7 +43,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public void download(String id, HttpServletResponse response) {
+    public void download(String id, HttpServletResponse response) throws IOException {
         Optional<File> file = repository.findById(id);
         if (!file.isPresent()) {
             throw new BizException(ExceptionType.NOT_FOUND_FILE);

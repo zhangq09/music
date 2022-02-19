@@ -13,5 +13,5 @@ public interface FileService {
 
     FileUploadDto getToken() throws IOException;
 
-    void download(String id, HttpServletResponse response);
+    void download(String id, HttpServletResponse response) throws IOException;
 }

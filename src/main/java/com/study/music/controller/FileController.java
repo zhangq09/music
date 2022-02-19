@@ -26,7 +26,7 @@ public class FileController {
     }
 
     @GetMapping("/download/{id}")
-    public void download(@PathVariable("id") String id, HttpServletResponse response) {
+    public void download(@PathVariable("id") String id, HttpServletResponse response) throws IOException {
         fileService.download(id, response);
     }
 
