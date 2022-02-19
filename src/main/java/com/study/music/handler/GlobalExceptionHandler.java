@@ -27,14 +27,14 @@ public class GlobalExceptionHandler {
     }
 
     //Exception返回500的处理
-    @ExceptionHandler(value = Exception.class)
+  /*  @ExceptionHandler(value = Exception.class)
     public ErrorResponse exceptionHandler(Exception e) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setCode(ExceptionType.INNER_ERROR.getCode());
         errorResponse.setMessage(ExceptionType.INNER_ERROR.getMessage());
         return errorResponse;
     }
-
+*/
     @ExceptionHandler(value = TokenExpiredException.class)
     public ErrorResponse tokenExceptionHandler(Exception e) {
         ErrorResponse errorResponse = new ErrorResponse();

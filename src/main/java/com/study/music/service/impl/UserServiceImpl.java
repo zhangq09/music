@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setUsername(userCreateRequest.getUsername());
         user.setNickname(userCreateRequest.getNickname());
-        user.setPassword(userCreateRequest.getPassword());
+        user.setPassword(passwordEncoder.encode(userCreateRequest.getPassword()));
         if (userCreateRequest.getGender() != null) {
             user.setGender(Enum.valueOf(Gender.class, userCreateRequest.getGender()));
         }

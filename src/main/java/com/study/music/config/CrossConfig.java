@@ -22,7 +22,7 @@ public class CrossConfig {
         //允许所有请求方法跨域调用
         configuration.addAllowedMethod("*");
 
-        configuration.addExposedHeader("*");
+        //configuration.addExposedHeader("*");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

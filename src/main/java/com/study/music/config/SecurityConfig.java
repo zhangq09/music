@@ -37,6 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/swagger**/**") //swagger页面
                 .antMatchers("/v3/**")      //需要开启的页面
                 .antMatchers("/webjars/**")
+                .antMatchers("/wx/**")
                 .antMatchers("/doc.html");
     }
 
@@ -45,6 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, TOKEN_URL).permitAll()
+                .antMatchers(HttpMethod.GET, "/wx/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 //.addFilter(new JwtAuthenticationFilter(authenticationManager()))

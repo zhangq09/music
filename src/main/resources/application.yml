@@ -16,3 +16,16 @@ spring:
     import: optional:file:.env[.properties]
   profiles:
     active: dev
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+weixin:
+  mp:
+    appid: wx3388477c22dc3b94
+    app-secret: 4ffc4ce47bfcddd8c77c633c2fceebcf
+cos:
+  storage:
+    secretId: AKIDGL9gxxg8JCo9D2ZpoWx7zbvzlHWUBajZ
+    secretKey: atvg9LGuIPEm33lDNGsDH4ZnkQovlKbb
+    bucket: zhangq09-1309656300
+    region: ap-shanghai

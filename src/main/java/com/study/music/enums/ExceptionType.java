@@ -12,7 +12,9 @@ public enum ExceptionType {
 
     TOKEN_IS_EXPIRED(40301001, "用户验证已失效，请重新验证"),
     USER_LOCKED(40301002, "用户被锁定"),
-    NOT_FOUND(404, "未找到资源");
+    NOT_FOUND(404, "未找到资源"),
+    NOT_FOUND_MUSIC(40401001, "没找到此音乐"),
+    NOT_FOUND_FILE(40401001, "没找到此文件");
 
 
     private final Integer code;
